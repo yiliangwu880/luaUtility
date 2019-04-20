@@ -44,14 +44,15 @@ function g_table.ReadOnly(t)
 end
 
 -- 获取table={}元素数量
-function g_table.GetTableNum(t)
-	if type(t) ~= "table" then return 0 end
-	local cnt = 0
-	for k,v in pairs(t) do
-		cnt = cnt + 1
-	end
-	return cnt
-end
+-- table.getn() 可以直接用
+--function g_table.GetTableNum(t)
+--	if type(t) ~= "table" then return 0 end
+--	local cnt = 0
+--	for k,v in pairs(t) do
+--		cnt = cnt + 1
+--	end
+--	return cnt
+--end
 
 --数组合并数组,比如{1,2} 合并{3,4}={1,2,3,4}
 function g_table.ConcatVaule(t, dependTable) 
