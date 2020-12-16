@@ -183,6 +183,9 @@ function g_utility.CheckIllegalGlobalName()
 	    "_VERSION",
 	    "load",
 	    "gcinfo",
+        "utf8",
+        "arg",
+        "rawlen",
 	    }
 	    for _, v in ipairs(sys_key__word) do
 		    if v == s then

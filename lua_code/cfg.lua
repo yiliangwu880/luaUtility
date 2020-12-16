@@ -1,10 +1,19 @@
---ÅäÖÃÎÄ¼ş£¬Ä¿µÄ£¬ÈÃËùÓĞ´úÂë£¬ÒÆÖ²µ½²»Í¬ÏîÄ¿Ö»ĞèĞŞ¸ÄÕâÀï
+--é…ç½®æ–‡ä»¶ï¼Œç›®çš„ï¼Œè®©æ‰€æœ‰ä»£ç ï¼Œç§»æ¤åˆ°ä¸åŒé¡¹ç›®åªéœ€ä¿®æ”¹è¿™é‡Œ
+
+local function log_detail()
+    local info = debug.getinfo(2, "nSl")
+    local name = info.source:match(".+%\\(.+)$") --linux ç”¨ info.source:match(".+%/(.+)$")
+    local line = info.currentline
+    local func = info.name
+    info = string.format("%s:%d: ", name, line)
+    return info
+end
 
 function ErrorLog(...)
-    g_utility.ErrorLog(...)
+    g_utility.ErrorLog(log_detail(), ...)
 end
 function DebugLog(...)
-    g_utility.DebugLog(...)
+    g_utility.DebugLog(log_detail(), ...)
 end
 
-g_work_path = "./"  --main.lua µÄ¹¤×÷Ä¿Â¼
+g_work_path = "./"  --main.lua çš„å·¥ä½œç›®å½•
