@@ -1,10 +1,10 @@
-g_table = g_table or {}  --´¦ÀítableÏà¹Ø
+g_table = g_table or {}  --å¤„ç†tableç›¸å…³
 
 
 
---fun É¾³ıÊı×é¶à¸öÔªËØ
---para t Êı×é
---para idx_ls idx_lsÔªËØÄÚÈİ±ØĞë´ÓĞ¡µ½´óÅÅĞò
+--fun åˆ é™¤æ•°ç»„å¤šä¸ªå…ƒç´ 
+--para t æ•°ç»„
+--para idx_ls idx_lså…ƒç´ å†…å®¹å¿…é¡»ä»å°åˆ°å¤§æ’åº
 --[[
 ex:
 local remove_idxs = {}
@@ -16,7 +16,7 @@ g_table.remove(array, remove_idxs)
 function g_table.remove(array, idx_ls)
     for idx = 1, #idx_ls do
         re_idx = #idx_ls - idx + 1
-        table.remove(array, idx_ls[re_idx]) --µ¹ĞòÉ¾³ıÊı×éË÷Òı£¬²Å»áÕıÈ·. 
+        table.remove(array, idx_ls[re_idx]) --å€’åºåˆ é™¤æ•°ç»„ç´¢å¼•ï¼Œæ‰ä¼šæ­£ç¡®. 
     end
 end
 
@@ -30,7 +30,7 @@ function g_table.MultSetRemove(bag, element)
     bag[element] = (count and count > 1) and count - 1 or nil
 end
 
---Ê¹table±ä³ÉÖ»¶Á
+--ä½¿tableå˜æˆåªè¯»
 function g_table.ReadOnly(t)
     local proxy = {}
     local mt = { -- create metatable
@@ -43,7 +43,7 @@ function g_table.ReadOnly(t)
     return proxy
 end
 
--- »ñÈ¡table={}ÔªËØÊıÁ¿
+-- è·å–table={}å…ƒç´ æ•°é‡
 function g_table.GetTableNum(t)
 	if type(t) ~= "table" then return 0 end
 	local cnt = 0
@@ -53,18 +53,18 @@ function g_table.GetTableNum(t)
 	return cnt
 end
 
---Êı×éºÏ²¢Êı×é,±ÈÈç{1,2} ºÏ²¢{3,4}={1,2,3,4}
+--æ•°ç»„åˆå¹¶æ•°ç»„,æ¯”å¦‚{1,2} åˆå¹¶{3,4}={1,2,3,4}
 function g_table.ConcatVaule(t, dependTable) 
 	for key, var in pairs(dependTable) do
 	    table.insert(t,var)
 	end
 end
 
---¸ú×Ùtable¶ÁĞ´
+--è·Ÿè¸ªtableè¯»å†™
 --para t table
---para key ±»¸ú×ÙµÄkey
---para op ¸ú×ÙµÄ¶¯×÷¡£Îª "r" "w" "rw",·Ö±ğ±íÊ¾¶Á£¬Ğ´£¬¶ÁĞ´
---Àı×Ó£º t = g_table.Track(t, nil, "rw")
+--para key è¢«è·Ÿè¸ªçš„key
+--para op è·Ÿè¸ªçš„åŠ¨ä½œã€‚ä¸º "r" "w" "rw",åˆ†åˆ«è¡¨ç¤ºè¯»ï¼Œå†™ï¼Œè¯»å†™
+--ä¾‹å­ï¼š t = g_table.Track(t, nil, "rw")
 function g_table.Track(t, k, op)
     local mt = { -- create metatable
         __index = function (tt, kk)
@@ -85,10 +85,10 @@ function g_table.Track(t, k, op)
     setmetatable(proxy, mt)
     return proxy
 end
---¶ÓÁĞÓëË«¶Ë¶ÓÁĞ, ÔËĞĞ¼¸Ç§Äê²Å¿ÉÄÜÒç³ö
+--é˜Ÿåˆ—ä¸åŒç«¯é˜Ÿåˆ—, è¿è¡Œå‡ åƒå¹´æ‰å¯èƒ½æº¢å‡º
 ---------------------------------------------
 --[[
-Ê¹ÓÃÀı×Ó
+ä½¿ç”¨ä¾‹å­
 lp=g_utility.NewDeque()
 lp:PushFront(1)
 lp:PushFront(2)
@@ -106,14 +106,14 @@ print(x)
 
 x=lp:PopBack()
 print(x)
---Êä³ö½á¹û
+--è¾“å‡ºç»“æœ
 -- 2
 -- -2
 -- 1
 -- -1
--- lua£º... List is empty£¡
+-- luaï¼š... List is emptyï¼
 --]]
---para is_equal  ±È½Ïº¯Êı£¬ nilÓÃÄ¬ÈÏ==
+--para is_equal  æ¯”è¾ƒå‡½æ•°ï¼Œ nilç”¨é»˜è®¤==
 function g_table.NewDeque(is_equal)
 	local List={first=0, last=-1}
 	List.is_equal = is_equal
@@ -133,8 +133,8 @@ function g_table.NewDeque(is_equal)
 		end
 	end
 
-	--Ê§°Ü·µ»Ønil 
-	--·ñÔò·µ»ØÖµ£¬Èç¹ûÊÇtable·µ»ØÒıÓÃ
+	--å¤±è´¥è¿”å›nil 
+	--å¦åˆ™è¿”å›å€¼ï¼Œå¦‚æœæ˜¯tableè¿”å›å¼•ç”¨
 	function List:Find(value)
 		for k,v in pairs(self) do
 			if type(k) == "number" then
