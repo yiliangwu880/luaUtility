@@ -22,5 +22,6 @@ end
 
 g_utility.CheckIllegalGlobalName()
 
-print("run end")
+print("==================run end===============\n\n")
 
+--require(g_work_path.."t.lua")
