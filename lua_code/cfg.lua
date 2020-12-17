@@ -1,4 +1,5 @@
 --配置文件，目的，让所有代码，移植到不同项目只需修改这里
+local g_utility = require("./utility")
 
 local function log_detail()
     local info = debug.getinfo(2, "nSl")
@@ -16,4 +17,7 @@ function DebugLog(...)
     g_utility.DebugLog(log_detail(), ...)
 end
 
+function TableInfo(...)
+    g_utility.DebugLog(log_detail(), g_utility.All2String(...))
+end
 g_work_path = "./"  --main.lua 的工作目录

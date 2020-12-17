@@ -4,25 +4,6 @@ table 实用功能
 
 local m ={}
 
---fun 删除数组多个元素
---para t 数组
---para idx_ls idx_ls元素内容必须从小到大排序
---[[
-ex:
-local remove_idxs = {}
-for idx,v in ipairs(array) do 
-    table.insert(remove_idxs, idx)
-end
-m.remove(array, remove_idxs)
-]]
-function m.remove(array, idx_ls)
-    for idx = 1, #idx_ls do
-        re_idx = #idx_ls - idx + 1
-        table.remove(array, idx_ls[re_idx]) --倒序删除数组索引，才会正确. 
-    end
-end
-
-
 function m.MultSetInsert(bag, element)
     bag[element] = (bag[element] or 0) + 1
 end

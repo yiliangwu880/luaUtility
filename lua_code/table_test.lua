@@ -1,5 +1,5 @@
 
-local g_table =require(g_work_path.."table_util")
+local g_table =require("./table_util")
 
 local ms = {}
 g_table.MultSetInsert(ms, 11)

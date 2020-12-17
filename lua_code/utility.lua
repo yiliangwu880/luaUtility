@@ -2,10 +2,10 @@
 --]]
 
 
-g_utility = g_utility or {} 
+local m = {}
 
 
-function g_utility.ForceGlobalName()
+function m.ForceGlobalName()
     setmetatable(_G, {
         __index = function (tt, kk)
                     if string.find(kk, "g_") == nil then
@@ -23,13 +23,13 @@ function g_utility.ForceGlobalName()
 end
 
 --重加载文件
-function g_utility.ReloadFile(f)
+function m.ReloadFile(f)
     package.loaded[f] = nil
     require(f)
 end
 
 
-function g_utility.PrintTable(t)
+function m.PrintTable(t)
 	local tPrintedTable = {}
 	
 
@@ -80,12 +80,14 @@ function g_utility.PrintTable(t)
 	DoPrint(t)
 end
 
-local string_format = string.format
-function g_utility.All2String( ... )
+function m.All2String( ... )
+    local string_format = string.format
 	local tPrintedTable = {}
 	local sResultString = ""
-
-	local function Do2String(unknowValue)
+    local table_str=""
+	local function Do2String(unknowValue, table_str)
+        local old_table_str = table_str
+        table_str = table_str .. "  "
 		local sResult = ""
 		if type(unknowValue) == "table" then
 			if tPrintedTable[unknowValue] then--递归引用table
@@ -96,12 +98,12 @@ function g_utility.All2String( ... )
 			sResult = "{"
 			for k,v in pairs(unknowValue) do
 				if type(v) == "table" then
-					sResult = string_format("%s%s=%s", sResult, tostring(k), Do2String(v)) 
+					sResult = string_format("%s\n%s=%s", sResult, table_str..tostring(k), Do2String(v, table_str))
 				else
-					sResult = string_format("%s%s=%s, ", sResult, tostring(k), tostring(v))
+					sResult = string_format("%s\n%s=%s, ", sResult, table_str..tostring(k), tostring(v))
 				end
 			end
-			sResult = string_format("%s}, ", sResult)
+			sResult = string_format("%s\n"..old_table_str.."}, ", sResult)
 
 		else
 			sResult = string_format("%s%s,", sResult, tostring(unknowValue))
@@ -110,9 +112,9 @@ function g_utility.All2String( ... )
 		return sResult
 	end	
 
-	for i,v in ipairs({...}) do
+	for _,v in ipairs({...}) do
 		if type(v) == "table" then
-			sResultString = string_format("%s%s\t", sResultString, Do2String(v))
+			sResultString = string_format("\n%s%s\t", sResultString, Do2String(v, table_str))
 		else
 			sResultString = string_format("%s%s\t", sResultString, tostring(v))
 		end
@@ -122,20 +124,20 @@ function g_utility.All2String( ... )
 end
 
 
-function g_utility.ErrorLog(...)
-	local s = g_utility.All2String(...)
+function m.ErrorLog(...)
+	local s = m.All2String(...)
 
     print(s)
 end
 
-function g_utility.DebugLog(...)
-	local s = g_utility.All2String(...)
+function m.DebugLog(...)
+	local s = m.All2String(...)
 
 	print(s)
 end
 
 
-function g_utility.CheckIllegalGlobalName()
+function m.CheckIllegalGlobalName()
 
     local function IsSysKeyWord(s)
 	    local sys_key__word=
@@ -212,9 +214,9 @@ end
 --para op  跟踪的动作. 值为 "r"表示读，"w"表示写， nil 表示读写
 --para table_name table名字字符串
 --return 被跟踪的table
---使用例子 t = g_utility.Track(t)
+--使用例子 t = m.Track(t)
 local proxy_table_key = {}
-function g_utility.Track(t_t, t_k, op, table_name)
+function m.Track(t_t, t_k, op, table_name)
 	local proxy = {[proxy_table_key]=t_t}
     local mt = {
         __index = function (t, k)
@@ -248,8 +250,10 @@ end
 
 --fun 停止跟踪table的读写
 --return 停止跟踪的table
---例子 t = g_utility.StopTrack(t)
-function g_utility.StopTrack(proxy)
+--例子 t = m.StopTrack(t)
+function m.StopTrack(proxy)
     setmetatable(proxy, nil)
 	return proxy[proxy_table_key]
 end
+
+return m

@@ -1,10 +1,12 @@
---新增测试模块，在str_all_test_file 加字符串就可以了
+
 
 require "cfg"
+local g_utility = require("./utility")
+
 local str_all_lib_file=
 {
 }
-
+--新增测试模块，在str_all_test_file 加字符串就可以了
 local str_all_test_file=
 {
 	g_work_path.."game/com_task_test",
@@ -24,4 +26,4 @@ g_utility.CheckIllegalGlobalName()
 
 print("==================run end===============\n\n")
 
---require(g_work_path.."t.lua")
+require("./test")

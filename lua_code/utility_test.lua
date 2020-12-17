@@ -1,7 +1,7 @@
 --[[实用功能
 --]]
 
-require(g_work_path.."utility")
+local g_utility = require(g_work_path.."utility")
 
 
 
