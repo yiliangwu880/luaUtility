@@ -1,22 +1,45 @@
+--[[
+随意写测试代码
+]]
+
 local g_utility = require("./utility")
 
-t =
-{
-    11,2,3,
-    d={
-        3,a=3,
-        b={3,a=3,}
-    },
-    end3={
-        1,
-        e1=3,
-    },
+t = {
+    a=11,
+    1,2,3,
+    b=22,
+    c=33
 }
-
-t.end3.e1 = t.d
-
-local function IsLeftBefore(a,b)
-    return a<b
+function f1()
+    return t
 end
-table.sort(t, ss)
+local ff = f1()
+ff.a = 33
+
 TableInfo(t)
+
+--
+--setmetatable(t, {__mode = "v",
+--
+--})
+--
+--obj={1,2,3}
+--setmetatable(obj, {
+--                 __gc = function(t, k, a)
+--                     print("gc t,k=", t, k , a)
+--                     TableInfo(t)
+--                 end,
+--})
+--print(obj)
+--print(t)
+--t["a"] = obj
+--obj={}
+--t["b"] = obj
+--t[1] = obj
+--collectgarbage()
+--TableInfo(t)
+
+
+
+
+
