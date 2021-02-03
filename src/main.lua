@@ -26,4 +26,4 @@ g_utility.CheckIllegalGlobalName()
 
 print("==================run end===============\n\n")
 
-require("./test")
+
