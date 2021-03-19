@@ -2,19 +2,19 @@
 table 实用功能
 ]]
 
-local m ={}
+local table_util ={}
 
-function m.MultSetInsert(bag, element)
+function table_util.MultSetInsert(bag, element)
     bag[element] = (bag[element] or 0) + 1
 end
 
-function m.MultSetRemove(bag, element)
+function table_util.MultSetRemove(bag, element)
     local count = bag[element]
     bag[element] = (count and count > 1) and count - 1 or nil
 end
 
 --使table变成只读
-function m.ReadOnly(t)
+function table_util.ReadOnly(t)
     local proxy = {}
     local mt = { -- create metatable
     __index = t,
@@ -27,7 +27,7 @@ function m.ReadOnly(t)
 end
 
 -- 获取table={}元素数量
-function m.GetTableNum(t)
+function table_util.GetTableNum(t)
 	if type(t) ~= "table" then return 0 end
 	local cnt = 0
 	for k,v in pairs(t) do
@@ -37,7 +37,7 @@ function m.GetTableNum(t)
 end
 
 --数组合并数组,比如{1,2} 合并{3,4}={1,2,3,4}
-function m.ConcatVaule(t, dependTable) 
+function table_util.ConcatVaule(t, dependTable)
 	for key, var in pairs(dependTable) do
 	    table.insert(t,var)
 	end
@@ -48,7 +48,7 @@ end
 --para key 被跟踪的key
 --para op 跟踪的动作。为 "r" "w" "rw",分别表示读，写，读写
 --例子： t = m.Track(t, nil, "rw")
-function m.Track(t, k, op)
+function table_util.Track(t, k, op)
     local mt = { -- create metatable
         __index = function (tt, kk)
                     if k == nil or k == kk then
@@ -72,32 +72,24 @@ end
 ---------------------------------------------
 --[[
 使用例子
-lp=g_utility.NewDeque()
+local lp=table_util.NewDeque()
 lp:PushFront(1)
 lp:PushFront(2)
 lp:PushBack(-1)
 lp:PushBack(-2)
 
+local x=lp:PopFront()
+assert(x==2)
+x=lp:PopBack()
+assert(x==-2)
 x=lp:PopFront()
-print(x)
+assert(x==1)
 x=lp:PopBack()
-print(x)
-x=lp:PopFront()
-print(x)
-x=lp:PopBack()
-print(x)
-
-x=lp:PopBack()
-print(x)
---输出结果
--- 2
--- -2
--- 1
--- -1
--- lua：... List is empty！
+assert(x==-1)
 --]]
---para is_equal  比较函数， nil用默认==
-function m.NewDeque(is_equal)
+---NewDeque
+---@param is_equal table 比较函数， nil表示用默认==
+function table_util.NewDeque(is_equal)
 	local List={first=0, last=-1}
 	List.is_equal = is_equal
 
@@ -183,4 +175,4 @@ function m.NewDeque(is_equal)
     return List
 end
 
-return m
+return table_util
