@@ -59,3 +59,11 @@ local t={a=3}
 lp:PushBack(t)
 assert(lp:Find(-2)==-2)
 assert(lp:Find(t).a==3)
+
+
+assert(lp:Size() == 4)
+
+local function for_each(v)
+    print("for each=", v)
+end
+lp:ForEach(for_each)
