@@ -67,3 +67,7 @@ local function for_each(v)
     print("for each=", v)
 end
 lp:ForEach(for_each)
+
+assert(lp:Size() == 4)
+
+
