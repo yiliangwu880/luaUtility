@@ -14,6 +14,7 @@ local str_all_test_file=
 	g_work_path.."class_test",
 	g_work_path.."table_test",
     g_work_path.."MemTest",
+    g_work_path.."test",
 }
 
 for _, var in ipairs(str_all_lib_file) do

@@ -75,6 +75,7 @@ mri.m_cBases.OutputFilteredResult("./LuaMemRefInfo-All-[2-After].txt", "Author",
 
 -- Filter all result exclude keywords: "Author".
 mri.m_cBases.OutputFilteredResult("./LuaMemRefInfo-All-[2-After].txt", "Author", false, true)
+mri.m_cBases.OutputMoreFilteredResult("./LuaMemRefInfo-All-[Compared].txt", {"City", "Job"})
 
 -- All dump finished!
 print("Dump memory snapshot information finished!")

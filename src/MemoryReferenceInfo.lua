@@ -952,6 +952,79 @@ local function OutputFilteredResult(strFilePath, strFilter, bIncludeFilter, bOut
 	end
 end
 
+-- Fileter an existing result file and output it.
+-- strFilePath - The existing result file.
+-- strFilter - The filter table. 结构:{string1, string2, ..}.
+local function OutputMoreFilteredResult(strFilePath, strFilter)
+    local bOutputFile = true
+    if (not strFilePath) or (0 == string.len(strFilePath)) then
+        print("You need to specify a file path.")
+        return
+    end
+
+    if not strFilter then
+        print("You need to specify a filter string.")
+        return
+    end
+
+    -- Read file.
+    local cFilteredResult = {}
+    local cReadFile = assert(io.open(strFilePath, "rb"))
+    for strLine in cReadFile:lines() do
+        local isFind = false
+        for _, str in pairs(strFilter) do
+            local nBegin, nEnd = string.find(strLine, str)
+            if nBegin and nEnd then
+                isFind = true
+                break
+            end
+        end
+        if not isFind then
+            local nBegin, nEnd = string.find(strLine, "[\r\n]")
+            if nBegin and nEnd and (string.len(strLine) == nEnd) then
+                table.insert(cFilteredResult, string.sub(strLine, 1, nBegin - 1))
+            else
+                table.insert(cFilteredResult, strLine)
+            end
+        end
+    end
+
+    -- Close and clear read file handle.
+    io.close(cReadFile)
+    cReadFile = nil
+
+    -- Write filtered result.
+    local cOutputHandle = nil
+    local cOutputEntry = print
+
+    if bOutputFile then
+        -- Combine file name.
+        local _, _, strResFileName = string.find(strFilePath, "(.*)%.txt")
+        strResFileName = strResFileName .. "-Filter-" .. "E" .. ".txt"
+
+        local cFile = assert(io.open(strResFileName, "w"))
+        cOutputHandle = cFile
+        cOutputEntry = cFile.write
+    end
+
+    local cOutputer = function (strContent)
+        if cOutputHandle then
+            cOutputEntry(cOutputHandle, strContent)
+        else
+            cOutputEntry(strContent)
+        end
+    end
+
+    -- Output result.
+    for i, v in ipairs(cFilteredResult) do
+        cOutputer(v .. "\n")
+    end
+
+    if bOutputFile then
+        io.close(cOutputHandle)
+        cOutputHandle = nil
+    end
+end
 -- Dump memory reference at current time.
 -- strSavePath - The save path of the file to store the result, must be a directory path, If nil or "" then the result will output to console as print does.
 -- strExtraFileName - If you want to add extra info append to the end of the result file, give a string, nothing will do if set to nil or "".
@@ -1068,5 +1141,6 @@ cPublications.m_cBases.CollectSingleObjectReferenceInMemory = CollectSingleObjec
 cPublications.m_cBases.OutputMemorySnapshot = OutputMemorySnapshot
 cPublications.m_cBases.OutputMemorySnapshotSingleObject = OutputMemorySnapshotSingleObject
 cPublications.m_cBases.OutputFilteredResult = OutputFilteredResult
+cPublications.m_cBases.OutputMoreFilteredResult = OutputMoreFilteredResult
 
 return cPublications

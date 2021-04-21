@@ -10,14 +10,10 @@ t = {
     b=22,
     c=33
 }
-function f1()
-    return t
-end
-local ff = f1()
-ff.a = 33
 
-TableInfo(t)
 
+local str = "ab"
+print("ddd end", string.byte(str), string.byte(str,2,2))
 --
 --setmetatable(t, {__mode = "v",
 --
